@@ -23,13 +23,13 @@ This project is a **Spring Boot-based multi-tenant e-commerce application** that
 ## Installation and Setup
 
 ### Prerequisites
-1. **Java 8+** installed
+1. **Java 17** installed
 2. **MySQL** installed and running
 3. **Postman** for API testing (optional)
 
 ### Clone the Repository
 ```sh
- git clone <your-repo-url>
+git clone -b master https://github.com/priyakaushik1919/e-commerce.git 
  cd multi-tenant-ecommerce
 ```
 
@@ -72,13 +72,6 @@ mvn spring-boot:run
 
 ---
 
-## Multi-Tenancy Implementation
-- Uses **schema-based partitioning** where each store (tenant) has a separate schema in the database.
-- Hibernate dynamically selects the schema based on the tenant.
-- **TenantResolver** is used to determine the current tenant from the request.
-
----
-
 ## Security Implementation
 - **JWT (JSON Web Token)** is used for authentication.
 - Users must provide a valid JWT token in the **Authorization** header for secured endpoints.
@@ -90,7 +83,7 @@ mvn spring-boot:run
 ```json
 {
   "username": "admin",
-  "password": "admin123",
+  "password": "adminpass",
   "role": "ADMIN"
 }
 ```
@@ -101,9 +94,6 @@ mvn spring-boot:run
 
 ## Future Enhancements
 - Add support for **role-based access control (RBAC)**.
-- Implement **payment gateway integration**.
-- Introduce **inventory management**.
-
 ---
 
 ## Author
