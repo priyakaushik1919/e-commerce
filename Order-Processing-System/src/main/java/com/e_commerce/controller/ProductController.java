@@ -37,7 +37,7 @@ public class ProductController {
         Long userId = jwtUtil.getUserIdFromJWT(token);
         String userRole = jwtUtil.getRoleFromJWT(token);
 
-        return "ADMIN".equals(userRole) && userId == 1;
+        return "ADMIN".equals(userRole);
     }
     
 //    @PostMapping("/add")
@@ -56,34 +56,25 @@ public class ProductController {
 
     @PostMapping("/add")
     public ResponseEntity<?> addProduct(@RequestBody Product product, @RequestHeader("Authorization") String token) {
-        System.out.println("Received request to add product...");
-       
-        // Print token for debugging (avoid in production)
-        System.out.println("Authorization Token: " + token);
+        
 
         if (!isAdminWithId1(token)) {
             System.out.println("Access denied: User is not Admin with ID=1");
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Access Denied: Only Admin with ID=1 can add products.");
         }
 
-        // Print product details before saving
-        System.out.println("Product to be saved: " + product);
-
-        // Save product
         Product savedProduct = productService.addProduct(product);
 
-        // Print saved product details
         System.out.println("Product successfully saved: " + savedProduct);
 
         return ResponseEntity.ok(savedProduct);
     }
     @GetMapping("/list")
-    public ResponseEntity<?> getAllProducts(@RequestHeader("Authorization") String token) {
+    public ResponseEntity<?> getAllProducts(@RequestParam("productType") String productType, @RequestHeader("Authorization") String token) {
         if (!isAdminWithId1(token)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Access Denied: Only Admin with ID=1 can view products.");
         }
-        List<Product> products = productService.getAllProducts();
-        return ResponseEntity.ok(products);
+        return ResponseEntity.ok(productService.getProductsByType(productType));
     }
 
     @PutMapping("/update/{id}")
@@ -95,13 +86,23 @@ public class ProductController {
         return ResponseEntity.ok(updatedProduct);
     }
 
+//    @DeleteMapping("/delete/{id}")
+//    public ResponseEntity<?> deleteProduct(@PathVariable("id") long id, @RequestHeader("Authorization") String token) {
+//        if (!isAdminWithId1(token)) {
+//            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Access Denied: Only Admin with ID=1 can delete products.");
+//        }
+//        productService.deleteProduct(id);
+//        return ResponseEntity.ok("DELETE SUCCESS");
+//    }
+    
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteProduct(@PathVariable("id") long id, @RequestHeader("Authorization") String token) {
-        if (!isAdminWithId1(token)) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Access Denied: Only Admin with ID=1 can delete products.");
+    public ResponseEntity<?> deleteProduct(@PathVariable("id") Long id, @RequestParam("productType") String productType) {
+        try {
+            productService.deleteProduct(id, productType);
+            return ResponseEntity.ok("Product with ID " + id + " deleted successfully from " + productType);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
-        productService.deleteProduct(id);
-        return ResponseEntity.ok("DELETE SUCCESS");
     }
 }
 

@@ -34,7 +34,7 @@ public class OrderService {
         BigDecimal pricePerUnit;
         
         // Determine which product table to use
-        if ("Product".equalsIgnoreCase(productType)) {
+        if ("product".equalsIgnoreCase(productType)) {
             Product product = productRepository.findById(productId)
                     .orElseThrow(() -> new RuntimeException("Product not found"));
             pricePerUnit = product.getPrice();

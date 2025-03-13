@@ -79,21 +79,51 @@ public class ProductService {
         }
     }
 
-    public void deleteProduct(Long id) {
-        System.out.println("Deleting product with ID: {}: "+ id);
-        if (productRepository.existsById(id)) {
-            productRepository.deleteById(id);
-            System.out.println("Product with ID {} deleted successfully: "+ id);
+    public List<?> getProductsByType(String productType) {
+        if ("Product".equalsIgnoreCase(productType)) {
+            return productRepository.findAll();
+        } else if ("Product2".equalsIgnoreCase(productType)) {
+            return productRepository2.findAll();
+        } else if ("Product3".equalsIgnoreCase(productType)) {
+            return productRepository3.findAll();
         } else {
-            System.out.println("Product with ID {} not found!: "+ id);
-            throw new RuntimeException("Product not found");
+            throw new IllegalArgumentException("Invalid product type");
+        }
+}
+    
+//    public void deleteProduct(Long id) {
+//        if (productRepository.existsById(id)) {
+//            productRepository.deleteById(id);
+//        } else {
+//            System.out.println("Product with ID {} not found!: "+ id);
+//            throw new RuntimeException("Product not found");
+//        }
+//    }
+
+    public void deleteProduct(Long id, String productType) {
+        if ("Product".equalsIgnoreCase(productType)) {
+            if (productRepository.existsById(id)) {
+                productRepository.deleteById(id);
+            } else {
+                throw new RuntimeException("Product with ID " + id + " not found in Product repository");
+            }
+        } else if ("Product2".equalsIgnoreCase(productType)) {
+            if (productRepository2.existsById(id)) {
+                productRepository2.deleteById(id);
+            } else {
+                throw new RuntimeException("Product with ID " + id + " not found in Product2 repository");
+            }
+        } else if ("Product3".equalsIgnoreCase(productType)) {
+            if (productRepository3.existsById(id)) {
+                productRepository3.deleteById(id);
+            } else {
+                throw new RuntimeException("Product with ID " + id + " not found in Product3 repository");
+            }
+        } else {
+            throw new IllegalArgumentException("Invalid product type");
         }
     }
 
-
-	public List<Product> getAllProducts() {
-		return productRepository.findAll();
-	}
 }
 
 
