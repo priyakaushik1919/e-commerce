@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.e_commerce.entity.Product;
+import com.e_commerce.entity.Product2;
+import com.e_commerce.entity.Product3;
 import com.e_commerce.security.JWTUtil;
 import com.e_commerce.service.ProductService;
 
@@ -31,41 +33,45 @@ public class ProductController {
 
     private boolean isAdminWithId1(String jwtToken) {
     	String token = jwtToken.substring(7);
-        Long userId = jwtUtil.getUserIdFromJWT(token);
+//        Long userId = jwtUtil.getUserIdFromJWT(token);
         String userRole = jwtUtil.getRoleFromJWT(token);
 
         return "ADMIN".equals(userRole);
     }
-    
-//    @PostMapping("/add")
-//    public ResponseEntity<?> addProduct(@RequestBody ProductDto productDto, 
-//                                        @RequestParam String productType, 
-//                                        @RequestHeader("Authorization") String token) {
-//        // Check if the user is an admin with ID=1
-//        if (!isAdminWithId1(token)) {
-//            return ResponseEntity.status(HttpStatus.FORBIDDEN)
-//                    .body("Access Denied: Only Admin with ID=1 can add products.");
-//        }
-//
-//        Object savedProduct = productService.addProduct(productDto, productType);
-//        return ResponseEntity.ok(savedProduct);
-//    }
 
     @PostMapping("/add")
     public ResponseEntity<?> addProduct(@RequestBody Product product, @RequestHeader("Authorization") String token) {
-        
 
         if (!isAdminWithId1(token)) {
-            System.out.println("Access denied: User is not Admin with ID=1");
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Access Denied: Only Admin with ID=1 can add products.");
         }
 
         Product savedProduct = productService.addProduct(product);
-
-        System.out.println("Product successfully saved: " + savedProduct);
-
         return ResponseEntity.ok(savedProduct);
     }
+    
+    @PostMapping("/add2")
+    public ResponseEntity<?> addProduct2(@RequestBody Product2 product, @RequestHeader("Authorization") String token) {
+
+        if (!isAdminWithId1(token)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Access Denied: Only Admin with ID=1 can add products.");
+        }
+
+        Product2 savedProduct = productService.addProduct2(product);
+        return ResponseEntity.ok(savedProduct);
+    }
+    
+    @PostMapping("/add3")
+    public ResponseEntity<?> addProduct3(@RequestBody Product3 product, @RequestHeader("Authorization") String token) {
+
+        if (!isAdminWithId1(token)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Access Denied: Only Admin with ID=1 can add products.");
+        }
+
+        Product3 savedProduct = productService.addProduct3(product);
+        return ResponseEntity.ok(savedProduct);
+    }
+    
     @GetMapping("/list")
     public ResponseEntity<?> getAllProducts(@RequestParam("productType") String productType, @RequestHeader("Authorization") String token) {
         if (!isAdminWithId1(token)) {
@@ -80,6 +86,24 @@ public class ProductController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Access Denied: Only Admin with ID=1 can update products.");
         }
         Product updatedProduct = productService.updateProduct(id, product);
+        return ResponseEntity.ok(updatedProduct);
+    }
+    
+    @PutMapping("/update2/{id}")
+    public ResponseEntity<?> updateProduct2(@PathVariable("id") long id, @RequestBody Product2 product, @RequestHeader("Authorization") String token) {
+        if (!isAdminWithId1(token)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Access Denied: Only Admin with ID=1 can update products.");
+        }
+        Product2 updatedProduct = productService.updateProduct2(id, product);
+        return ResponseEntity.ok(updatedProduct);
+    }
+    
+    @PutMapping("/update3/{id}")
+    public ResponseEntity<?> updateProduct3(@PathVariable("id") long id, @RequestBody Product3 product, @RequestHeader("Authorization") String token) {
+        if (!isAdminWithId1(token)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Access Denied: Only Admin with ID=1 can update products.");
+        }
+        Product3 updatedProduct = productService.updateProduct3(id, product);
         return ResponseEntity.ok(updatedProduct);
     }
 

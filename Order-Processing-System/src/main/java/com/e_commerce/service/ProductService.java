@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.e_commerce.entity.Product;
+import com.e_commerce.entity.Product2;
+import com.e_commerce.entity.Product3;
 import com.e_commerce.repository.ProductRepository;
 import com.e_commerce.repository.ProductRepository2;
 import com.e_commerce.repository.ProductRepository3;
@@ -28,34 +30,19 @@ public class ProductService {
       
         return productRepository.save(product);
     }
-
-//    public Object addProduct(ProductDto productDto, String productType) {
-//        if ("Product".equalsIgnoreCase(productType)) {
-//            Product product = new Product();
-//            product.setName(productDto.getName());
-//            product.setPrice(productDto.getPrice());
-//            product.setDescription(productDto.getDescription());
-//            return productRepository.save(product);
-//        } else if ("Product2".equalsIgnoreCase(productType)) {
-//            Product2 product2 = new Product2();
-//            product2.setName(productDto.getName());
-//            product2.setPrice(productDto.getPrice());
-//            product2.setDescription(productDto.getDescription());
-//            return productRepository2.save(product2);
-//        } else if ("Product3".equalsIgnoreCase(productType)) {
-//            Product3 product3 = new Product3();
-//            product3.setName(productDto.getName());
-//            product3.setPrice(productDto.getPrice());
-//            product3.setDescription(productDto.getDescription());
-//            return productRepository3.save(product3);
-//        } else {
-//            throw new IllegalArgumentException("Invalid product type");
-//        }
-//    }
+    
+    public Product2 addProduct2(Product2 product) {
+        
+        return productRepository2.save(product);
+    }
+    
+    public Product3 addProduct3(Product3 product) {
+        
+        return productRepository3.save(product);
+    }
 
 
     public Product updateProduct(Long id, Product product) {
-        System.out.println("Updating product with ID: {}: "+ id);
         Optional<Product> existingProduct = productRepository.findById(id);
         if (existingProduct.isPresent()) {
             Product updatedProduct = existingProduct.get();
@@ -63,10 +50,36 @@ public class ProductService {
             updatedProduct.setPrice(product.getPrice());
             updatedProduct.setDescription(product.getDescription());
             productRepository.save(updatedProduct);
-            System.out.println("Product with ID {} updated successfully: "+ id);
             return updatedProduct;
         } else {
-            System.out.println("Product with ID {} not found!: "+ id);
+            throw new RuntimeException("Product not found");
+        }
+    }
+    
+    public Product2 updateProduct2(Long id, Product2 product) {
+        Optional<Product2> existingProduct2 = productRepository2.findById(id);
+        if (existingProduct2.isPresent()) {
+            Product2 updatedProduct = existingProduct2.get();
+            updatedProduct.setName(product.getName());
+            updatedProduct.setPrice(product.getPrice());
+            updatedProduct.setDescription(product.getDescription());
+            productRepository2.save(updatedProduct);
+            return updatedProduct;
+        } else {
+            throw new RuntimeException("Product not found");
+        }
+    }
+    
+    public Product3 updateProduct3(Long id, Product3 product) {
+        Optional<Product3> existingProduct3 = productRepository3.findById(id);
+        if (existingProduct3.isPresent()) {
+            Product3 updatedProduct = existingProduct3.get();
+            updatedProduct.setName(product.getName());
+            updatedProduct.setPrice(product.getPrice());
+            updatedProduct.setDescription(product.getDescription());
+            productRepository3.save(updatedProduct);
+            return updatedProduct;
+        } else {
             throw new RuntimeException("Product not found");
         }
     }
