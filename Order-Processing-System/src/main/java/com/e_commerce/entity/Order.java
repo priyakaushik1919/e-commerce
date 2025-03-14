@@ -24,13 +24,12 @@ public class Order {
     private String status;
     private Long productId;
     private int quantity;
-    private String productType; // FIELD to track the product table
+    private String productType; 
     private LocalDateTime createdAt;
     
     public Order() {
         this.createdAt = LocalDateTime.now();
         this.status = "PENDING";
-        this.totalPrice = BigDecimal.ZERO;
     }
 
     public Order(Long productId, String productType, int quantity, BigDecimal totalPrice) {

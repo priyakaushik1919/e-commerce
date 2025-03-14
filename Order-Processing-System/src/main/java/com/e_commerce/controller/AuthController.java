@@ -24,9 +24,6 @@ import jakarta.servlet.http.HttpSession;
 public class AuthController {
 
     @Autowired
-    private AuthenticationManager authenticationManager;
-
-    @Autowired
     private JWTUtil jwtUtil;
 
 

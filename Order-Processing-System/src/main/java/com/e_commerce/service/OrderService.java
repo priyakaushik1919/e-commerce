@@ -2,19 +2,21 @@ package com.e_commerce.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.e_commerce.entity.Order;
 import com.e_commerce.entity.Product;
+import com.e_commerce.entity.Product2;
+import com.e_commerce.entity.Product3;
 import com.e_commerce.event.OrderEvent;
 import com.e_commerce.repository.OrderRepository;
 import com.e_commerce.repository.ProductRepository;
+import com.e_commerce.repository.ProductRepository2;
+import com.e_commerce.repository.ProductRepository3;
 
 import jakarta.transaction.Transactional;
 
 import java.math.BigDecimal;
-import java.util.Optional;
 
 @Service
 public class OrderService {
@@ -25,6 +27,12 @@ public class OrderService {
     
     @Autowired
     private ProductRepository productRepository;
+    
+    @Autowired
+    private ProductRepository2 productRepository2;
+    
+    @Autowired
+    private ProductRepository3 productRepository3;
     
     @Autowired
     private ApplicationEventPublisher eventPublisher;
@@ -39,13 +47,13 @@ public class OrderService {
                     .orElseThrow(() -> new RuntimeException("Product not found"));
             pricePerUnit = product.getPrice();
         } 
-//        else if ("Product2".equalsIgnoreCase(productType)) {
-//            Product2 product2 = product2Repository.findById(productId).orElseThrow(() -> new RuntimeException("Product2 not found"));
-//            pricePerUnit = product2.getPrice();
-//        } else if ("Product3".equalsIgnoreCase(productType)) {
-//            Product3 product3 = product3Repository.findById(productId).orElseThrow(() -> new RuntimeException("Product3 not found"));
-//            pricePerUnit = product3.getPrice();
-//        } 
+        else if ("Product2".equalsIgnoreCase(productType)) {
+            Product2 product2 = productRepository2.findById(productId).orElseThrow(() -> new RuntimeException("Product2 not found"));
+            pricePerUnit = product2.getPrice();
+        } else if ("Product3".equalsIgnoreCase(productType)) {
+            Product3 product3 = productRepository3.findById(productId).orElseThrow(() -> new RuntimeException("Product3 not found"));
+            pricePerUnit = product3.getPrice();
+        } 
         else {
             throw new RuntimeException("Invalid product type");
         }
@@ -58,7 +66,7 @@ public class OrderService {
 
         // Save order
         Order order = new Order(productId, productType, quantity, totalPrice);
-        order.setStatus("COMPLETE");
+        order.setStatus("PENDING");
         order.setProductId(productId);
         order.setQuantity(quantity);
         order.setTotalPrice(totalPrice);
