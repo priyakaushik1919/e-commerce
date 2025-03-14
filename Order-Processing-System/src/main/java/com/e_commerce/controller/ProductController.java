@@ -1,7 +1,5 @@
 package com.e_commerce.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.e_commerce.dto.ProductDto;
 import com.e_commerce.entity.Product;
 import com.e_commerce.security.JWTUtil;
 import com.e_commerce.service.ProductService;
@@ -86,23 +83,15 @@ public class ProductController {
         return ResponseEntity.ok(updatedProduct);
     }
 
-//    @DeleteMapping("/delete/{id}")
-//    public ResponseEntity<?> deleteProduct(@PathVariable("id") long id, @RequestHeader("Authorization") String token) {
-//        if (!isAdminWithId1(token)) {
-//            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Access Denied: Only Admin with ID=1 can delete products.");
-//        }
-//        productService.deleteProduct(id);
-//        return ResponseEntity.ok("DELETE SUCCESS");
-//    }
     
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteProduct(@PathVariable("id") Long id, @RequestParam("productType") String productType) {
-        try {
+    public ResponseEntity<?> deleteProduct(@PathVariable("id") Long id, @RequestParam("productType") String productType
+    		, @RequestHeader("Authorization") String token) {
+    	  if (!isAdminWithId1(token)) {
+              return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Access Denied: Only Admin with ID=1 can update products.");
+          }
             productService.deleteProduct(id, productType);
             return ResponseEntity.ok("Product with ID " + id + " deleted successfully from " + productType);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
     }
 }
 

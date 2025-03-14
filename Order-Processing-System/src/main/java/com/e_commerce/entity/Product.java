@@ -1,7 +1,5 @@
 package com.e_commerce.entity;
 
-
-
 import java.math.BigDecimal;
 
 import jakarta.persistence.Entity;

@@ -18,12 +18,10 @@ public class OrderController {
     
     @PostMapping("/place")
     public ResponseEntity<Order> placeOrder(
-            @RequestParam(name = "productId") Long productId,
-            @RequestParam(name = "productType") String productType,
-            @RequestParam(name = "quantity") int quantity) {
-    	 System.out.println("Received order request: ");
+            @RequestParam("productId") Long productId,
+            @RequestParam("productType") String productType,
+            @RequestParam("quantity") int quantity) {
         Order order = orderService.placeOrder(productId, productType, quantity);
-        System.out.println("Order placed successfully: " + order);
         return ResponseEntity.ok(order);
     
     }

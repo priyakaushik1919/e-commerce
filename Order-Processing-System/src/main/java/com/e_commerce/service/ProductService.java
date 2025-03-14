@@ -1,36 +1,28 @@
 package com.e_commerce.service;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.e_commerce.dto.ProductDto;
 import com.e_commerce.entity.Product;
-import com.e_commerce.entity.Product2;
-import com.e_commerce.entity.Product3;
 import com.e_commerce.repository.ProductRepository;
 import com.e_commerce.repository.ProductRepository2;
 import com.e_commerce.repository.ProductRepository3;
-
-import jakarta.servlet.http.HttpSession;
-
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ProductService {
 
 
-    @Autowired
-    private ProductRepository productRepository;
+      @Autowired
+      private ProductRepository productRepository;
     
-//    @Autowired
-//    private ProductRepository productRepository;
-    
-  @Autowired
-  private ProductRepository2 productRepository2;
-    
-  @Autowired
-  private ProductRepository3 productRepository3;
+	  @Autowired
+	  private ProductRepository2 productRepository2;
+	    
+	  @Autowired
+	  private ProductRepository3 productRepository3;
 
     public Product addProduct(Product product) {
       
@@ -91,14 +83,6 @@ public class ProductService {
         }
 }
     
-//    public void deleteProduct(Long id) {
-//        if (productRepository.existsById(id)) {
-//            productRepository.deleteById(id);
-//        } else {
-//            System.out.println("Product with ID {} not found!: "+ id);
-//            throw new RuntimeException("Product not found");
-//        }
-//    }
 
     public void deleteProduct(Long id, String productType) {
         if ("Product".equalsIgnoreCase(productType)) {

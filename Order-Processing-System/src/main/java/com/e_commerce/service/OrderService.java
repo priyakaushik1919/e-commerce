@@ -53,6 +53,8 @@ public class OrderService {
        
         // Calculate total price
         BigDecimal totalPrice = pricePerUnit.multiply(BigDecimal.valueOf(quantity));
+        
+        System.out.println("totalPrice" + totalPrice);
 
         // Save order
         Order order = new Order(productId, productType, quantity, totalPrice);
@@ -60,6 +62,7 @@ public class OrderService {
         order.setProductId(productId);
         order.setQuantity(quantity);
         order.setTotalPrice(totalPrice);
+        
         order = orderRepository.save(order);
 
         // Publish an event for asynchronous order processing

@@ -30,6 +30,7 @@ public class Order {
     public Order() {
         this.createdAt = LocalDateTime.now();
         this.status = "PENDING";
+        this.totalPrice = BigDecimal.ZERO;
     }
 
     public Order(Long productId, String productType, int quantity, BigDecimal totalPrice) {
